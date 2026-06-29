@@ -1,0 +1,19 @@
+import pandas as pd
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+
+# Simulated dataset of a phishing campaign tracking psychological triggers
+data = {
+    'employee_id': range(1, 11),
+    'cognitive_trigger': ['Authority', 'Scarcity', 'Fear', 'Authority', 'Social Proof', 
+                          'Fear', 'Scarcity', 'Social Proof', 'Fear', 'Authority'],
+    'years_experience': [2, 5, 1, 8, 3, 12, 4, 7, 2, 6],
+    'clicked': [1, 0, 1, 0, 0, 0, 1, 0, 1, 0] # 1 = Hooked, 0 = Ignored
+}
+
+df = pd.DataFrame(data)
+
+# Logistic regression to find risk predictors
+print("--- Cognitive Vulnerability Logistic Regression Model ---")
+model = smf.logit("clicked ~ C(cognitive_trigger) + years_experience", data=df).fit()
+print(model.summary())
